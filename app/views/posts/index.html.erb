@@ -1,6 +1,6 @@
 <h1>AjaxApp</h1>
-<%= form_with url:  "/posts", method: :post,id: "form" do |form| %>
-  <%= form.text_field :content %>
+<%= form_with url: "/posts", method: :post,id: "form" do |form| %>
+  <%= form.text_field :content  , id: "content" %> <%# 投稿するたびにフォームの値をリセット %>
   <%= form.submit '投稿する' , id: "submit" %>
 <% end %>
 
@@ -17,3 +17,5 @@
     </div>
   </div>
 <% end %>
+
+

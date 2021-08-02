@@ -1,3 +1,18 @@
+const buildHTML = (XHR) => {
+    const item = XHR.response.post;
+    const html = `
+      <div class="post">
+        <div class="post-date">
+          投稿日時：${item.created_at}
+      </div>
+      <div class="post-content">
+          ${item.content}
+        </div>
+      </div>`;
+    return html;
+  };
+
+
 function post (){
   const submit = document.getElementById("submit");
   submit.addEventListener("click", (e) => {
@@ -8,6 +23,16 @@ function post (){
     XHR.open("POST", "/posts", true);
     XHR.responseType = "json";
     XHR.send(formData);
+    XHR.onload = () => {
+      if (XHR.status != 200) {
+        alert(`Error ${XHR.status}: ${XHR.statusText}`);
+        return null;
+      };
+      const list = document.getElementById("list");
+      const formText = document.getElementById("content");
+      list.insertAdjacentHTML("afterend", buildHTML(XHR));
+      formText.value = "";
+    };
   });
 };
 
@@ -41,3 +66,11 @@ window.addEventListener('load', post);
 // preventDefault()は既定のイベントを無効化するためのメソッド。
 // 既定のイベントとは、「投稿ボタンをクリックする」のようなものを指す
 // eはイベントオブジェクト、イベント発生時の情報を持ったオブジェクト
+
+// onloadは、リクエストの送信が成功した際に呼び出されるプロパティ
+
+// responseは、サーバーからのレスポンスに関する情報が格納されたプロパティ
+
+// 新たに投稿されたメモのHTMLを生成する処理
+
+// formText.value = ""; フォームの中身をリセット
